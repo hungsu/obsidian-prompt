@@ -19,8 +19,9 @@ export default class MyPlugin extends Plugin {
 		if (fileOrFolder instanceof TFile) {
 			this.app.vault.read(fileOrFolder).then(
 				fileContents => {
-					console.log(fileContents)
-					const prompts = fileContents.split('\n')
+					const prompts = fileContents.split('\n').filter(potentialPrompt => {
+						return potentialPrompt.trim().length > 0
+					})
 					const chosenPromptIndex = Math.floor(Math.random() * prompts.length)
 					new Notice(prompts[chosenPromptIndex]);
 				}
