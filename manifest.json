@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-sample-plugin",
-	"name": "Random Prompt",
+	"id": "obsidian-prompt-plugin",
+	"name": "Prompt",
 	"version": "1.0.1",
 	"minAppVersion": "0.9.12",
 	"description": "Shows a random text prompt when triggered",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md/about",
+	"author": "Hung-Su",
+	"authorUrl": "https://github.com/hungsu",
 	"isDesktopOnly": false
 }

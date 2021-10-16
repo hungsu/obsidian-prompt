@@ -20,7 +20,8 @@ export default class MyPlugin extends Plugin {
 			this.app.vault.read(fileOrFolder).then(
 				fileContents => {
 					const prompts = fileContents.split('\n').filter(potentialPrompt => {
-						return potentialPrompt.trim().length > 0
+						let promptIsNotAComment = potentialPrompt.indexOf('%%') == -1
+						return promptIsNotAComment && potentialPrompt.trim().length > 0
 					})
 					const chosenPromptIndex = Math.floor(Math.random() * prompts.length)
 					new Notice(prompts[chosenPromptIndex]);
@@ -42,7 +43,7 @@ export default class MyPlugin extends Plugin {
 
 		this.addCommand({
 			id: 'prompt-random',
-			name: 'Prompt: Show a random prompt',
+			name: 'Show a random prompt',
 			// callback: () => {
 			// 	console.log('Simple Callback');
 			// },
@@ -92,10 +93,11 @@ class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		containerEl.createEl('h2', {text: 'Obsidian Prompt settings'});
+		containerEl.createEl('p', {text: 'Show yourself a random bit of inspiration when you need it! Remember you can trigger a prompt with the Command Palette, or a Hotkey.'});
 
 		new Setting(containerEl)
 			.setName('File with prompts')
-			.setDesc('A file with one Prompt, per line. Blank lines will automatically be ignored.')
+			.setDesc('A file with one Prompt per line. Comments and Blank lines will automatically be ignored.')
 			.addSearch(cb => {
 
 				new FileSuggest(
