@@ -1,5 +1,5 @@
 {
-	"id": "obsidian-prompt-plugin",
+	"id": "prompt",
 	"name": "Prompt",
 	"version": "1.0.1",
 	"minAppVersion": "0.9.12",
