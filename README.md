@@ -6,7 +6,8 @@ This plugin for Obsidian shows you a random text prompt, from a file in your vau
 
 ## Setup
 
-- Create a file in your vault that contains a prompt you'd like to show yourself. A Prompt should be pure text, no markdown, and fit on a single line.
+- Create a file in your vault that will contain Prompts, if you do not have one already.
+- Add prompts to that file that you'd like to show yourself. A Prompt should be pure text, no markdown, and fit on a single line.
 - In Obsidian Settings, find Prompt. Choose the file you created.
 - In Obsidian, show yourself a prompt by either:
   - clicking the Sidebar button,
