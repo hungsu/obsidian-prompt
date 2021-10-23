@@ -2,16 +2,16 @@ import { App, Modal, Notice, Plugin, PluginSettingTab, Setting, Vault, TFile, ad
 
 import { FileSuggest, FileSuggestMode } from "FileSuggester";
 
-interface MyPluginSettings {
+interface PromptPluginSettings {
 	mySetting: string;
 }
 
-const DEFAULT_SETTINGS: MyPluginSettings = {
+const DEFAULT_SETTINGS: PromptPluginSettings = {
 	mySetting: 'Prompts.md'
 }
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+export default class PromptPlugin extends Plugin {
+	settings: PromptPluginSettings;
 
 	showRandomPrompt = () => {
 		const fileOrFolder = this.app.vault.getAbstractFileByPath(this.settings.mySetting)
@@ -59,7 +59,7 @@ export default class MyPlugin extends Plugin {
 			}
 		});
 
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		this.addSettingTab(new PromptPluginSettingTab(this.app, this));
 
 		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
@@ -79,10 +79,10 @@ export default class MyPlugin extends Plugin {
 	}
 }
 
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+class PromptPluginSettingTab extends PluginSettingTab {
+	plugin: PromptPlugin;
 
-	constructor(app: App, plugin: MyPlugin) {
+	constructor(app: App, plugin: PromptPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
