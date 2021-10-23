@@ -1,7 +1,7 @@
 {
 	"id": "prompt",
 	"name": "Prompt",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"minAppVersion": "0.9.12",
 	"description": "Shows a random text prompt when triggered",
 	"author": "Hung-Su",
