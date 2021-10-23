@@ -60,8 +60,6 @@ export default class PromptPlugin extends Plugin {
 		});
 
 		this.addSettingTab(new PromptPluginSettingTab(this.app, this));
-
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
 	}
 
 	onunload() {
