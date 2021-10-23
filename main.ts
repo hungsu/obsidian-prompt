@@ -3,34 +3,31 @@ import { App, Modal, Notice, Plugin, PluginSettingTab, Setting, Vault, TFile, ad
 import { FileSuggest, FileSuggestMode } from "FileSuggester";
 
 interface PromptPluginSettings {
-	mySetting: string;
+	promptFilePath: string;
 }
 
 const DEFAULT_SETTINGS: PromptPluginSettings = {
-	mySetting: 'Prompts.md'
+	promptFilePath: 'Prompts.md'
 }
 
 export default class PromptPlugin extends Plugin {
 	settings: PromptPluginSettings;
 
-	showRandomPrompt = () => {
-		const fileOrFolder = this.app.vault.getAbstractFileByPath(this.settings.mySetting)
+	showRandomPrompt = async () => {
+		const vault = this.app.vault
+		const fileOrFolder = vault.getAbstractFileByPath(this.settings.promptFilePath)
 
 		if (fileOrFolder instanceof TFile) {
-			this.app.vault.read(fileOrFolder).then(
-				fileContents => {
-					const prompts = fileContents.split('\n').filter(potentialPrompt => {
-						let promptIsNotAComment = potentialPrompt.indexOf('%%') == -1
-						return promptIsNotAComment && potentialPrompt.trim().length > 0
-					})
-					const chosenPromptIndex = Math.floor(Math.random() * prompts.length)
-					new Notice(prompts[chosenPromptIndex]);
-				}
-			)
-
+			const promptFileContents = await vault.cachedRead(fileOrFolder)
+			const prompts = promptFileContents.split('\n').filter(potentialPrompt => {
+				let promptIsNotAComment = potentialPrompt.indexOf('%%') == -1
+				return promptIsNotAComment && potentialPrompt.trim().length > 0
+			})
+			const chosenPromptIndex = Math.floor(Math.random() * prompts.length)
+			new Notice(prompts[chosenPromptIndex]);
 		} else {
-			// fileOrFolder is null or a TFolder... handle accordingly
-			// new Notice('Not found!');
+			// fileOrFolder is null or a TFolder...
+			new Notice('No prompts file found! Please add one in Settings!');
 		}
 	}
 
@@ -44,9 +41,6 @@ export default class PromptPlugin extends Plugin {
 		this.addCommand({
 			id: 'prompt-random',
 			name: 'Show a random prompt',
-			// callback: () => {
-			// 	console.log('Simple Callback');
-			// },
 			checkCallback: (checking: boolean) => {
 				let leaf = this.app.workspace.activeLeaf;
 				if (leaf) {
@@ -100,9 +94,9 @@ class PromptPluginSettingTab extends PluginSettingTab {
 				);
 				cb
 					.setPlaceholder('Path to your prompts file')
-					.setValue(this.plugin.settings.mySetting)
+					.setValue(this.plugin.settings.promptFilePath)
 					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
+						this.plugin.settings.promptFilePath = value;
 						await this.plugin.saveSettings();
 					})
 			})
