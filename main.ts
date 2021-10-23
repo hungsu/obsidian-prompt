@@ -62,12 +62,6 @@ export default class PromptPlugin extends Plugin {
 		this.addSettingTab(new PromptPluginSettingTab(this.app, this));
 	}
 
-	onunload() {
-		console.log('unloading plugin');
-	}
-
-
-
 	async loadSettings() {
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 	}
