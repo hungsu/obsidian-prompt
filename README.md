@@ -2,7 +2,7 @@
 
 This plugin for Obsidian shows you a random text prompt, from a file in your vault, of your choice.
 
-![](screencast.gif)
+![prompt in use with mouse](https://raw.githubusercontent.com/hungsu/obsidian-prompt/master/screencast.gif)
 
 ## Setup
 
