@@ -4,10 +4,12 @@ import { FileSuggest, FileSuggestMode } from "FileSuggester";
 
 interface PromptPluginSettings {
 	promptFilePath: string;
+	promptTimeout: number;
 }
 
 const DEFAULT_SETTINGS: PromptPluginSettings = {
-	promptFilePath: 'Prompts.md'
+	promptFilePath: 'Prompts.md',
+	promptTimeout: 1000
 }
 
 export default class PromptPlugin extends Plugin {
@@ -24,7 +26,7 @@ export default class PromptPlugin extends Plugin {
 				return promptIsNotAComment && potentialPrompt.trim().length > 0
 			})
 			const chosenPromptIndex = Math.floor(Math.random() * prompts.length)
-			new Notice(prompts[chosenPromptIndex]);
+			new Notice(prompts[chosenPromptIndex], this.settings.promptTimeout);
 		} else {
 			// fileOrFolder is null or a TFolder...
 			new Notice('No prompts file found! Please add one in Settings!');
@@ -99,6 +101,20 @@ class PromptPluginSettingTab extends PluginSettingTab {
 						this.plugin.settings.promptFilePath = value;
 						await this.plugin.saveSettings();
 					})
+			})
+
+		new Setting(containerEl)
+			.setName('Prompt timeout')
+			.setDesc('How long to show a prompt for, in milliseconds')
+			.addSlider((slider) => {
+				slider
+					.setLimits(1000, 30000, 1000)
+					.setDynamicTooltip()
+					.setValue(this.plugin.settings.promptTimeout)
+					.onChange(async (value: number) => {
+						this.plugin.settings.promptTimeout = value;
+						this.plugin.saveSettings();
+					});
 			})
 	}
 }
